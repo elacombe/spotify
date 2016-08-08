@@ -21,7 +21,7 @@ const urlRelated = '/related-artists';
 const urlTop =  '/top-tracks?country=FR';
 const random = (min, max) => { return Math.floor( min + (Math.random() * ((max - min) + 1))); };
 
-const sortByPopularity = (artists) => _.sortBy(artists, related => related.popularity);
+const sortByPopularity = (elems) => _.orderBy(elems, elem => elem.popularity, ['desc']);
 const topN = (artists, n) => _.slice(sortByPopularity(artists), 0, n);
 
 const fetchRelated = id => cb => {
