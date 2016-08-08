@@ -20,6 +20,7 @@ const url = 'https://api.spotify.com/v1/artists/';
 const urlRelated = '/related-artists';
 const urlTop =  '/top-tracks?country=FR';
 const random = (min, max) => { return Math.floor( min + (Math.random() * ((max - min) + 1))); };
+const shuffleArtists = _.times(_.random(5, 10), () => baseArtists[_.random(0, baseArtists.length - 1)]);
 
 const sortByPopularity = (elems) => _.orderBy(elems, elem => elem.popularity, ['desc']);
 const topN = (artists, n) => _.slice(sortByPopularity(artists), 0, n);
@@ -46,4 +47,4 @@ const waterfallArtists = (id, cb) => {
   );
 }
 
-async.map(baseArtists, waterfallArtists, (err, res) => console.log(topN(res, 1)[0][0].name));
+async.map(shuffleArtists, waterfallArtists, (err, res) => console.log(topN(res, 1)[0][0].name));
