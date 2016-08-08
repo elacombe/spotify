@@ -20,10 +20,6 @@ const url = 'https://api.spotify.com/v1/artists/';
 const urlRelated = '/related-artists';
 const urlTop =  '/top-tracks?country=FR';
 const random = (min, max) => { return Math.floor( min + (Math.random() * ((max - min) + 1))); };
-let results = {};
-results.artist = '';
-results.track = '';
-results.popularity = 0;
 
 const sortByPopularity = (artists) => _.sortBy(artists, related => related.popularity);
 const topN = (artists, n) => _.slice(sortByPopularity(artists), 0, n);
