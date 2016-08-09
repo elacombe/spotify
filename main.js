@@ -57,4 +57,4 @@ const waterfallArtists = (id, cb) => {
   );
 }
 
-async.map(shuffleArtists, waterfallArtists, (err, res) => console.log(topN(res, 1)[0][0].name + ' from ' + topN(res, 1)[0][0].artists[0].name));
+async.map(shuffleArtists, waterfallArtists, (err, res) => console.log('Top popular track from random artists is : ' + topN(res, 1)[0][0].name + ' from ' + topN(res, 1)[0][0].artists[0].name));
