@@ -14,12 +14,22 @@ const baseArtists = [
   '7gTbq5nTZGQIUgjEGXQpOS',
   '1O8CSXsPwEqxcoBE360PPO',
   '5YeoQ1L71cXDMpSpqxOjfH',
+  '4Nrd0CtP8txoQhnnlRA6V6',
+  '5MmVJVhhYKQ86izuGHzJYA',
+  '4dpARuHxo51G3z768sgnrY',
+  '0X2BH1fck6amBIoJhDVmmJ',
+  '5WUlDfRSoLAfcVSX1WnrxN',
+  '7dGJo4pcD2V6oG8kP0tJRR',
+  '6DPYiyq5kWVQS4RGwxzPC7',
+  '1ZwdS5xdxEREPySFridCfh',
+  '7hJcb9fa4alzcOq3EaNPoG',
+  '2Sqr0DXoaYABbjBo9HaMkM',
 ];
 
 const url = 'https://api.spotify.com/v1/artists/';
 const urlRelated = '/related-artists';
 const urlTop =  '/top-tracks?country=FR';
-const random = (min, max) => { return Math.floor( min + (Math.random() * ((max - min) + 1))); };
+
 const shuffleArtists = _.times(_.random(5, 10), () => baseArtists[_.random(0, baseArtists.length - 1)]);
 
 const sortByPopularity = (elems) => _.orderBy(elems, elem => elem.popularity, ['desc']);
@@ -47,4 +57,4 @@ const waterfallArtists = (id, cb) => {
   );
 }
 
-async.map(shuffleArtists, waterfallArtists, (err, res) => console.log(topN(res, 1)[0][0].name));
+async.map(shuffleArtists, waterfallArtists, (err, res) => console.log(topN(res, 1)[0][0].name + ' from ' + topN(res, 1)[0][0].artists[0].name));
