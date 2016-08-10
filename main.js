@@ -32,20 +32,22 @@ const urlTop =  '/top-tracks?country=FR';
 
 const shuffleArtists = _.times(_.random(5, 10), () => baseArtists[_.random(0, baseArtists.length - 1)]);
 
-const sortByPopularity = (elems) => _.orderBy(elems, elem => elem.popularity, ['desc']);
-const topN = (artists, n) => _.slice(sortByPopularity(artists), 0, n);
+const sortByPopularity = (elems) => _.orderBy(elems, 'popularity', ['desc']);
+const topN = (elems, n) => _.slice(sortByPopularity(elems), 0, n);
 
 const fetchRelated = id => cb => {
   fetch(url + id + urlRelated, 'GET')
     .then(res => res.json())
-    .then(res => cb(null, topN(res.artists, 2)));
+    .then(res => cb(null, topN(res.artists, 2)))
+    .catch(err => cb(err));
 }
 
 const fetchTracks = (artists, cb) => {
   async.map(artists, (artist) => { 
-    fetch(url + artist.id + urlTop)
+    fetch(url + artist.id + urlTop, 'GET')
     .then(res => res.json())
-    .then(res => cb(null, topN(res.tracks, 1)));
+    .then(res => cb(null, topN(res.tracks, 1)))
+    .catch(err => cb(err));;
   })
 }
 
@@ -57,4 +59,10 @@ const waterfallArtists = (id, cb) => {
   );
 }
 
-async.map(shuffleArtists, waterfallArtists, (err, res) => console.log('Top popular track from random artists is : ' + topN(res, 1)[0][0].name + ' from ' + topN(res, 1)[0][0].artists[0].name));
+async.map(shuffleArtists, waterfallArtists, (err, res) => console.log(
+  'Top popular track from random artists is : ' +
+  topN(res, 1)[0][0].name +
+  ' from ' +
+  topN(res, 1)[0][0].artists[0].name
+  )
+);
